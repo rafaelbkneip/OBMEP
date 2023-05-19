@@ -12,6 +12,7 @@ options = Options()
 options.add_experimental_option("detach", True)
 
 import leitura
+import save
 
 navegador = webdriver.Chrome(ChromeDriverManager().install(), options=options)
 navegador.get("http://premiacao.obmep.org.br/17obmep/mapa.htm?_gl=1*1g0yvb0*_ga*Mzg4NTIwNzEzLjE2Nzk1NzYzNTM.*_ga_21HEQ7CQ8K*MTY4NDMyNDAxNC4zLjEuMTY4NDMyNDAyOC4wLjAuMA.")
@@ -29,12 +30,17 @@ estados = estados[0].text.split("\n")
 
 estados.pop(-1)
 
-for i in range(len(estados)):
+unica = []
+for i in range(1): 
     
-    navegador.get('http://premiacao.obmep.org.br/17obmep/verMenuAlunosPremiados-' + str(estados[i]) + '.htm')
+    navegador.get('http://premiacao.obmep.org.br/17obmep/verMenuAlunosPremiados-' + str(estados[i])  + '.htm') 
 
-    leitura.leitura(navegador)
+    leitura_estado = leitura.leitura(navegador)
 
     sleep(10)
 
-    
+    for j in range(len(leitura_estado)):
+        unica.append(leitura_estado[j])
+
+print(unica)
+save.salvar(unica)
